@@ -1,0 +1,66 @@
+version: 2
+
+sources:
+  - name: coffee_shop
+    database: analytics-engineers-club
+    schema: coffee_shop
+    description: AEC dataset, currently a stale dataset.
+    freshness:
+      error_after:
+        count: 12
+        period: hour
+    
+    tables:
+      - name: customers
+        columns:
+          - name: id
+            description: "This is the unique identifier for our customers"
+            tests:
+              - unique
+              - not_null
+          - name: email
+            tests:
+              - not_null
+
+      - name: order_items
+        columns:
+          - name: id
+            tests:
+              - not_null
+              - unique
+
+      - name: orders
+        columns:
+          - name: id
+            description: "This is the unique identifier for each order"
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            tests:
+              - not_null
+          - name: created_at
+            description: "This is the order timestamp"
+            tests:
+              - not_null
+          - name: total
+            description: "This is the quantity of items or each purchase"
+            tests:
+              - not_null
+      
+      - name: product_prices
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: product_id
+            tests:
+              - not_null
+
+      - name: products
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
